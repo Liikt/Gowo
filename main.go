@@ -11,111 +11,111 @@ import (
 type actionFunc func()
 
 type cell struct {
-	value       uint8
-	left, right *cell
+	vawue       uint8
+	left, wight *cell
 }
 
 var (
-	program  = []string{}
+	pwogwam  = []string{}
 	ip       = 0
-	scanner  = bufio.NewScanner(os.Stdin)
-	cellptr  = &cell{value: 0x00, left: nil, right: nil}
-	loops    = []int{}
+	scwanner = bufio.NewScanner(os.Stdin)
+	cellpwtr = &cell{vawue: 0x00, left: nil, wight: nil}
+	woops    = []int{}
 	tokenMap = map[string]actionFunc{
 		"ôwo": left,
-		"owô": right,
+		"owô": wight,
 		"òwó": add,
 		"ówò": sub,
-		"OwO": print,
-		"owo": read,
+		"OwO": pwint,
+		"owo": wead,
 		"ÕwO": startLoop,
 		"OwÕ": endLoop,
 	}
 )
 
 func left() {
-	advanceCellPtrLeft()
+	advanceCellPwtrLeft()
 }
 
-func right() {
-	advanceCellPtrRight()
+func wight() {
+	advanceCellPwtrRight()
 }
 
 func add() {
-	cellptr.value++
+	cellpwtr.vawue++
 }
 
 func sub() {
-	cellptr.value--
+	cellpwtr.vawue--
 }
 
-func print() {
-	for ; cellptr.value != 0 && cellptr.right != nil; cellptr = cellptr.right {
-		if 0x00 <= cellptr.value && cellptr.value <= 0x7f {
-			fmt.Print(string(cellptr.value))
+func pwint() {
+	for ; cellpwtr.vawue != 0 && cellpwtr.wight != nil; cellpwtr = cellpwtr.wight {
+		if 0x00 <= cellpwtr.vawue && cellpwtr.vawue <= 0x7f {
+			fmt.Print(string(cellpwtr.vawue))
 		}
 	}
-	if cellptr.right == nil && cellptr.value != 0 {
-		advanceCellPtrRight()
+	if cellpwtr.wight == nil && cellpwtr.vawue != 0 {
+		advanceCellPwtrRight()
 	}
 }
 
-func read() {
+func wead() {
 	fmt.Print("Wou want swome inpwut? ")
-	scanned := scanner.Scan()
+	scanned := scwanner.Scan()
 	if !scanned {
-		throw("ówò The scwanner bwoke")
+		thwow("ówò The scwanner bwoke")
 	}
-	line := scanner.Text()
-	for _, char := range line {
+	wine := scwanner.Text()
+	for _, char := range wine {
 		if 0x00 <= char && char <= 0x7f {
-			cellptr.value = uint8(char)
-			advanceCellPtrRight()
+			cellpwtr.vawue = uint8(char)
+			advanceCellPwtrRight()
 		}
 	}
 }
 
 func startLoop() {
-	loops = append([]int{ip}, loops...)
+	woops = append([]int{ip}, woops...)
 }
 
 func endLoop() {
-	if len(loops) == 0 {
-		throw("ónò Thwere is a `ÕwO` missing. (IP=%d)", ip)
+	if len(woops) == 0 {
+		thwow("ónò Thwere is a `ÕwO` missing. (IP=%d)", ip)
 	}
-	if cellptr.value == 0x00 {
-		loops = loops[1:]
+	if cellpwtr.vawue == 0x00 {
+		woops = woops[1:]
 	} else {
-		ip = loops[0]
+		ip = woops[0]
 	}
 }
 
-func advanceCellPtrRight() {
-	if cellptr.right == nil {
-		cellptr.right = &cell{value: 0x00, left: cellptr, right: nil}
+func advanceCellPwtrRight() {
+	if cellpwtr.wight == nil {
+		cellpwtr.wight = &cell{vawue: 0x00, left: cellpwtr, wight: nil}
 	}
-	cellptr = cellptr.right
+	cellpwtr = cellpwtr.wight
 }
 
-func advanceCellPtrLeft() {
-	if cellptr.left == nil {
-		cellptr.left = &cell{value: 0x00, left: nil, right: cellptr}
+func advanceCellPwtrLeft() {
+	if cellpwtr.left == nil {
+		cellpwtr.left = &cell{vawue: 0x00, left: nil, wight: cellpwtr}
 	}
-	cellptr = cellptr.left
+	cellpwtr = cellpwtr.left
 }
 
-func throw(format string, v ...interface{}) {
+func thwow(format string, v ...interface{}) {
 	fmt.Printf(format, v...)
 	fmt.Println()
 	os.Exit(1)
 }
 
 func execute(input string) {
-	program = strings.Split(input, " ")
-	for ; ip < len(program); ip++ {
-		action, ok := tokenMap[program[ip]]
+	pwogwam = strings.Split(input, " ")
+	for ; ip < len(pwogwam); ip++ {
+		action, ok := tokenMap[pwogwam[ip]]
 		if !ok {
-			throw("uwu I dwon't know thwis twoken: %s", program[ip])
+			thwow("uwu I dwon't know thwis twoken: %s", pwogwam[ip])
 		}
 		action()
 	}
@@ -125,17 +125,17 @@ func main() {
 	switch len(os.Args) {
 	case 1:
 		fmt.Println("𝓞𝔀𝓞 What pwogwam do you want to execwute?")
-		scanned := scanner.Scan()
+		scanned := scwanner.Scan()
 		if !scanned {
-			throw("ówò The scwanner bwoke")
+			thwow("ówò The scwanner bwoke")
 		}
-		input := scanner.Text()
+		input := scwanner.Text()
 		execute(input)
 		fmt.Println()
 	case 2:
 		input, err := ioutil.ReadFile(os.Args[1])
 		if err != nil {
-			throw("(´・ω・｀) There was a twinzy pwobwem weading your fwile: %s", err)
+			thwow("(´・ω・｀) There was a twinzy pwobwem weading your fwile: %s", err)
 		}
 		execute(string(input))
 		fmt.Println()

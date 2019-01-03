@@ -14,10 +14,10 @@ convmap = {
 }
 
 if len(sys.argv) >= 2:
-    chars = []
+    owos = []
     with open(sys.argv[1]) as f:
-        chars = [char for char in f.read() if char in ["<",">","+","-",".",",","[","]"]]
-        print("".join(chars))
+        owos = [owo for owo in f.read() if owo in ["<",">","+","-",".",",","[","]"]]
+        print("".join(owos))
     with open(sys.argv[1][:-2] + ".owo", "w") as f:
-        f.write(" ".join([convmap[x] for x in chars]))
-        print(" ".join([convmap[x] for x in chars]))
+        f.write(" ".join([convmap[owo] for owo in owos]))
+        print(" ".join([convmap[owo] for owo in owos]))
